@@ -1,0 +1,52 @@
+/**Variables and mixin - Redundant rules**/
+#loginPage-body {
+  background-color: #FFFEF8;
+}
+
+#section-log {
+  width: 50%;
+  margin: auto;
+}
+#section-log h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+#section-log form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+#section-log input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#section-log label {
+  margin: 2em 0 1em 0;
+}
+#section-log texarea {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#section-log button {
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+  margin: 0 13.3rem;
+  font-family: "work sans";
+}
+
+.loginPage-footer {
+  background-color: white;
+}
+
+.loginPage-legal {
+  position: absolute;
+  bottom: 0;
+  right: 4rem;
+}
+
+/*# sourceMappingURL=login.css.map */

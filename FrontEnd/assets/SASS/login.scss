@@ -1,0 +1,26 @@
+@use './utilities.scss'; /**Variables and mixin - Redundant rules**/
+
+#loginPage-body {
+    background-color: utilities.$background-login  /*TODO*/ 
+}
+
+#section-log {
+    @include utilities.generic-form;
+    & button {
+        border: none;
+        background-color: transparent;
+        text-decoration: underline;
+        cursor: pointer;
+        margin: 0 13.3rem;
+        font-family: utilities.$main-font;
+    }
+}
+
+.loginPage-footer {
+    background-color: utilities.$light-color;
+}
+.loginPage-legal {
+    position: absolute;
+    bottom: 0;
+    right: 4rem;
+}

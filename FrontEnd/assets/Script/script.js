@@ -25,6 +25,7 @@ console.log(categoryDataJSON);
 
 // Initial Image Gallery function generation
 function galleryCreation() {
+    gallery.innerHTML = ""
     for (let i = 0; i < mainDataJSON.length; i++) {
         const figureProject = document.createElement("figure");
         const galleryImg = document.createElement("img");
@@ -77,7 +78,7 @@ btnClicked.forEach(el => el.addEventListener("click", event => {
 
     btnClicked.forEach(btn => btn.classList.remove("active-btn"));
 
-    // Ajoute la classe active-btn uniquement au bouton actuellement cliqué
+
     event.target.classList.add("active-btn");
 
     console.log(works);

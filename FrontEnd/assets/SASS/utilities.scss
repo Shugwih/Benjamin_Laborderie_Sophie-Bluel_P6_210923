@@ -1,0 +1,47 @@
+$main-color: #1D6154;
+$secondary-color:#B1663C;
+$light-color: white;
+$background-login: #FFFEF8;
+
+$main-font: 'work sans';
+$secondary-font: 'Syne';
+
+@mixin generic-form {
+    width: 50%;
+    margin: auto;
+    & h2 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    & form {
+        text-align: left;
+	    margin-top:30px;
+	    display: flex;
+	    flex-direction: column;
+    }
+    & input {
+        height: 50px;
+        font-size: 1.2em;
+        border: none;
+        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    }
+    & label {
+        margin: 2em 0 1em 0;
+    }
+    & texarea {
+        border: none;
+	    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    }
+}
+
+@mixin generic-submit {
+    font-family: $secondary-font;
+	font-weight: 700;
+	color: $light-color;
+	background-color: $main-color;
+	margin: 2em auto;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px;
+    cursor: pointer;
+}
