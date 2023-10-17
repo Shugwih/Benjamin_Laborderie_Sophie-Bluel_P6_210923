@@ -1,8 +1,4 @@
 /**Variables and mixin - Redundant rules**/
-#loginPage-body {
-  background-color: #FFFEF8;
-}
-
 #section-log {
   width: 50%;
   margin: auto;
@@ -30,23 +26,26 @@
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#section-log button {
+#section-log > * {
+  text-align: center;
+}
+#section-log div {
+  text-align: center;
+}
+#section-log div #loginSupport {
   border: none;
   background-color: transparent;
   text-decoration: underline;
   cursor: pointer;
-  margin: 0 13.3rem;
   font-family: "work sans";
 }
 
-.loginPage-footer {
-  background-color: white;
-}
-
-.loginPage-legal {
+.login-legal {
   position: absolute;
   bottom: 0;
-  right: 4rem;
+  right: 0;
+  background-color: white;
+  width: 100%;
 }
 
 /*# sourceMappingURL=login.css.map */

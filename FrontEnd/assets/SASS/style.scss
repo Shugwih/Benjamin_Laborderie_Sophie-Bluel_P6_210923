@@ -31,6 +31,7 @@ footer, header, hgroup, menu, nav, section {
 
 body {
 	line-height: 1;
+	background-color: utilities.$background-body;
 }
 
 ol, ul {
@@ -98,6 +99,7 @@ nav {
     & li {
         padding: 0 10px;
         font-size: 1.2em;
+		transition: all 0.3s ease-in-out;
             &:hover {
             color: utilities.$secondary-color;
             cursor: pointer;
@@ -175,9 +177,6 @@ nav {
 
 #contact {
 	@include utilities.generic-form;
-    & > * {
-        text-align: center;
-    }
 }
 
 input[type="submit"]{
@@ -188,6 +187,22 @@ footer nav {
     & ul {
         display: flex;
         justify-content: flex-end;
-        margin: 2em
+        margin: 2em;
     }
+}
+
+/***** Form error and validation *****/
+
+@keyframes negativeShake {
+	25% {
+		transform: translateX(2%)
+	}
+	75% {
+		transform: translateX(2% * -1);
+	}
+}
+
+.input-error {
+	outline: 2px solid utilities.$error-color;
+	animation: negativeShake 0.1s cubic-bezier(.4,.1,.6,.9);
 }

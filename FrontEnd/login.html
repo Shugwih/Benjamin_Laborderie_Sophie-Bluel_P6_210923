@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="./assets/CSS/style.css">
 	<script type="module" src="./assets/Script/login.js" defer></script> <!--module for import // defer for load order-->
 </head>
-<body>
+<body id="loginPage-body">
 <header>
     <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 	<nav>
@@ -27,19 +27,22 @@
     <section id="section-log">
         <h2>Log In</h2>
         <form action="" method="get" id="login">
-            <label for="email">E-mail</label>
+            <label for="login-email">E-mail</label>
             <input type="email" name="email" id="login-email" required />
-            <label for="pass">Mot de passe</label>
+            <label for="login-pass">Mot de passe</label>
             <input type="password" name="password" id="login-pass" required />
 
-            <input type="submit" value="Se connecter" />
+            <input type="submit" id="connexion" value="Se connecter" />
+			
+			<div>
+				<button type="submit" id="loginSupport">Mot de passe oublié</button>
+			</div>
 
-            <button type="submit" id="forgot-password">Mot de passe oublié</button>
         </form>
     </section>
 </main>
 <footer>
-    <nav class="loginPage-legal">
+    <nav class="login-legal">
 		<ul>
 			<li>Mentions Légales</li>
 		</ul>

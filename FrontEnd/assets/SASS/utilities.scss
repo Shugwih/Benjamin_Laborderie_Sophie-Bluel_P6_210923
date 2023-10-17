@@ -1,7 +1,9 @@
 $main-color: #1D6154;
 $secondary-color:#B1663C;
 $light-color: white;
-$background-login: #FFFEF8;
+$background-body: #FFFEF8;
+$submit-color: #0E2F28;
+$error-color: #ff0033;
 
 $main-font: 'work sans';
 $secondary-font: 'Syne';
@@ -32,6 +34,9 @@ $secondary-font: 'Syne';
         border: none;
 	    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
     }
+    & > * {
+        text-align: center;
+    }
 }
 
 @mixin generic-submit {
@@ -43,5 +48,9 @@ $secondary-font: 'Syne';
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
-    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        cursor: pointer;
+        background-color: $submit-color;
+    }
 }
