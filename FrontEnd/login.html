@@ -10,6 +10,7 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/CSS/style.css">
 	<script type="module" src="./assets/Script/login.js" defer></script> <!--module for import // defer for load order-->
+	<script type="module" src="./assets/Script/script.js" defer></script>
 </head>
 <body id="loginPage-body">
 <header>
@@ -31,7 +32,8 @@
             <input type="email" name="email" id="login-email" required />
             <label for="login-pass">Mot de passe</label>
             <input type="password" name="password" id="login-pass" required />
-
+			<div id="error-container">
+			</div>
             <input type="submit" id="connexion" value="Se connecter" />
 			
 			<div>

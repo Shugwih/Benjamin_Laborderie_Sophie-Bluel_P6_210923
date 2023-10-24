@@ -237,4 +237,26 @@ footer nav ul {
   animation: negativeShake 0.1s cubic-bezier(0.4, 0.1, 0.6, 0.9);
 }
 
+.modal-1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.modal-1 .modal-box {
+  background-color: white;
+  width: 39.37rem;
+  padding: 20px;
+  overflow: auto;
+  border-radius: 10px;
+}
+.modal-1 .modal-box > h3 {
+  text-align: center;
+  font-size: 1.625rem;
+}
+
 /*# sourceMappingURL=style.css.map */
