@@ -56,23 +56,6 @@ async function login() {
     }
 }
 
-//Client already logged function
-function isAlreadyConnect() {
-    // recover token from localstorage
-    const authToken = localStorage.getItem("authToken");
-
-    if (authToken) {
-        // User connected
-        console.log("L'utilisateur est connecté.");
-        // avaible to use authToken
-    } else {
-        // User disconnected
-        console.log("L'utilisateur n'est pas connecté.");
-    }
-}
-
-isAlreadyConnect();
-
 //Connexion function
 /*
 async function logIn() {
