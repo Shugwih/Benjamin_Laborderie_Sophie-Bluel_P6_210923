@@ -30,6 +30,10 @@ footer, header, hgroup, menu, nav, section {
 body {
   line-height: 1;
   background-color: #FFFEF8;
+  max-width: 1140px;
+  margin: auto;
+  font-family: "work sans";
+  font-size: 14px;
 }
 
 ol, ul {
@@ -50,13 +54,6 @@ table {
 }
 
 /** end reset css**/
-body {
-  max-width: 1140px;
-  margin: auto;
-  font-family: "work sans";
-  font-size: 14px;
-}
-
 header {
   display: flex;
   justify-content: space-between;
@@ -124,11 +121,6 @@ nav li:hover {
 }
 #introduction p {
   margin-bottom: 0.5em;
-}
-
-#portfolio h2 {
-  text-align: center;
-  margin-bottom: 1em;
 }
 
 /***** CSS for filter *****/
@@ -323,7 +315,21 @@ footer nav ul {
   background-color: #0E2F28;
 }
 .modal-1 .modal-box .modal-horizontal-line {
-  width: 75%;
+  width: 71%;
+  margin-top: 2rem;
+}
+
+.js-submit-work {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  width: 50% !important;
+  margin: 1rem auto 2rem auto !important;
 }
 
 .js-admin-modal-project {
@@ -350,12 +356,37 @@ footer nav ul {
   align-items: center;
   justify-content: center;
   width: 70%;
-  height: 150px;
+  height: 169px;
 }
 .form-modal-add-project .form-area-picture > label {
   border-radius: 50px;
   background: #CBD6DC;
   color: #306685;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  margin: 0.5rem auto;
+  padding: 0 2.2rem;
+  transition: all 0.3s ease-in-out;
+}
+.form-modal-add-project .form-area-picture > label:hover {
+  cursor: pointer;
+  background: #bcc6cc;
+}
+.form-modal-add-project .form-area-picture > p {
+  font-size: 10px;
+}
+.form-modal-add-project .form-area-picture #image-preview-container {
+  height: 169px;
+}
+.form-modal-add-project .form-area-picture #image-preview-container img {
+  height: inherit;
+  width: auto;
 }
 .form-modal-add-project .form-area-title, .form-modal-add-project .form-area-category {
   display: flex;
@@ -384,6 +415,25 @@ footer nav ul {
 .admin-modal-img-container .admin-modal-svg-container > svg {
   fill: white;
   pointer-events: none; /*FOR SUPPRESS CLICK*/
+}
+
+.js-admin-div-connexion {
+  display: flex;
+  height: 60px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
+  gap: 2rem;
+}
+.js-admin-div-connexion .js-modal-admin {
+  gap: 0.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 0.3rem;
+}
+.js-admin-div-connexion .js-modal-admin:visited {
+  color: inherit;
 }
 
 /*# sourceMappingURL=style.css.map */

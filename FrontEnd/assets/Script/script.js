@@ -127,16 +127,19 @@ function isAlreadyConnect() {
     const signInActionBtn = document.getElementById("navActionBtn2")
 
     const adminBtn = document.getElementById("js-admin-modifier")
+
+    const filterBar = document.getElementById("filter-btn-container")
     if (authToken) {
         // User connected
         console.log("L'utilisateur est connecté.");
         // avaible to use authToken
-        adminBtn.style.display = "block";
+        adminBtn.style.display = "flex";
         signInActionBtn.textContent = "Logout";
         signInActionBtn.addEventListener("click", function () {
             localStorage.removeItem("authToken")
             location.href = "";
         })
+        filterBar.style.display = "none"
     } else {
         // User disconnected
         adminBtn.style.display = "none"
@@ -226,17 +229,17 @@ async function displayPhotosInModal() {
 displayPhotosInModal();
 
 //MODAL Add new photo
-const formModalAddProject = document.querySelector('.form-modal-add-project');
-formModalAddProject.addEventListener('submit', async (event) => {
+const formModalAddProject = document.querySelector(".form-modal-add-project");
+formModalAddProject.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     // Retrieve form data
-    const title = document.getElementById('js-picture-title').value;
-    const category = document.getElementById('categorie').value;
+    const title = document.getElementById("js-picture-title").value;
+    const category = document.getElementById("categorie").value;
 
     // Retrieve the image file to upload
-    const imageFile = document.getElementById('photo').files[0];
-    console.log(document.getElementById('photo').files)
+    const imageFile = document.getElementById("photo").files[0];
+    console.log(document.getElementById("photo").files)
     const imageTest = document.getElementById("photo")
     console.log(imageTest)
     imageTest.addEventListener("change", function () {
@@ -244,9 +247,9 @@ formModalAddProject.addEventListener('submit', async (event) => {
     })
 
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('category', category);
-    formData.append('image', imageFile);
+    formData.append("title", title);
+    formData.append("category", category);
+    formData.append("image", imageFile);
     console.log({title, category, imageFile})
     console.log(formData)
     // Post data to API
@@ -261,24 +264,27 @@ formModalAddProject.addEventListener('submit', async (event) => {
     });
 
     if (response.ok) {
-        alert('Photo ajoutée avec succès !');
-        modalP2.style.display = 'none'; // close the modalP2
-        modalP1.style.display = 'block'; // back to modalP1
+        const img = await response.json();
+        console.log(img.id)
+        alert("Photo ajoutée avec succès !");
+        modalP2.style.display = "none"; // close the modalP2
+        modalP1.style.display = "block"; // back to modalP1
         // refresh the photo gallery
-        displayPhotosInModal();
+        //displayPhotosInModal(); XXXXXXXXXXXXXXXX
     } else {
-        //alert("Une erreur s'est produite lors de l'ajout de la photo.");
+        alert("Une erreur s'est produite lors de l'ajout de la photo.");
     }
 });
 
 //MODAL Delete photo
-// Ajoutez un gestionnaire d'événements pour les éléments avec la classe "js-delete-image"
-modalAdmin.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('js-delete-image')) {
-        const imageId = event.target.getAttribute('data-id'); // Récupérez l'ID de l'image
-
-        // Vérifiez si l'ID de l'image existe
-        if (imageId) {
+// add event listener for suppression
+console.log("Test")
+modalAdmin.addEventListener("click", async (event) => {
+    if (event.target.classList.contains("js-delete-image")) {
+        const imageId = event.target.getAttribute("data-id"); // Get the image ID
+        console.log(imageId)
+        // Verify ID
+        if ({imageId}) {
             const authToken = localStorage.getItem('authToken');
             const response = await fetch(`${GALLERY_API_URL}/${imageId}`, {
                 method: 'DELETE',
@@ -287,288 +293,53 @@ modalAdmin.addEventListener('click', async (event) => {
                     Authorization: `Bearer ${authToken}`,
                 },
             });
-
+            console.log(imageId)
             if (response.ok) {
-                // Suppression réussie
-                alert('L\'image a été supprimée avec succès.');
-                // Mettez à jour la galerie des photos
-                displayPhotosInModal();
+                alert("L'image a été supprimée avec succès.");
+                document.querySelector(`[data-id="${imageId}"]`).remove();
             } else {
-                // Erreur lors de la suppression de l'image
-                alert('Une erreur s\'est produite lors de la suppression de l\'image.');
+                alert("Une erreur s'est produite lors de la suppression de l'image.");
             }
         }
     }
 });
 
 //MODAL Add preview to upload photo
-//TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+
+function showPreview(event) {
+    if (event.target.files.length > 0) {
+      const src = URL.createObjectURL(event.target.files[0]);
+      const preview = document.getElementById("preview-selected-image");
+      preview.src = src;
+      const imagePreviewElement = document.getElementById("image-preview-container");
+      imagePreviewElement.style.display = "block"
+        
+      //Hide img input
+        const formAreaPictureDiv = document.querySelector(".form-area-picture");
+        const childFormElement = formAreaPictureDiv.querySelectorAll(".form-area-picture > *:not(#image-preview-container)");
+        childFormElement.forEach(function(el) {
+            el.style.display = "none";
+        })
+    }
+}
+
+const inputChange = document.getElementById("photo").addEventListener("change", event => {
+    showPreview(event);
+})
 
 //MODAL Select category
 
-const selectElement = document.querySelector('#categorie');
+const selectElement = document.querySelector("#categorie");
 
-const emptyOption = document.createElement('option');
-
-// Add empty option in first place
-selectElement.appendChild(emptyOption);
-
-// Create category option for select
-categoryDataJSON.forEach(category => {
-    const option = document.createElement('option');
-    option.value = category.id; 
-    option.textContent = category.name; 
-    selectElement.appendChild(option); 
-});
-
-/*<div>
-<div data-id="1" class="deelete">
-<svg>
-</div>
-<image/>
-</div>*/
-
-/*
-//MODAL TEST 2
-let modal = null;
-let secondModal = null;
-//open the modal
-const openmodal = function(e) {
-    e.preventDefault();
-    const target = document.querySelector("#modal-admin");
-    target.style.display = null;
-    target.removeAttribute("aria-hidden");
-    target.setAttribute("aria-modal", true);
-    modal = target;
-    modal.addEventListener("click", closeModal);
-    modal.querySelector(".js-admin-modal-close").addEventListener("click", closeModal);
-    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation);
-    console.log("2");
-
-    const firstmodal = document.getElementById("modal-admin-p1")
-    const secondModal = document.getElementById("modal-admin-p2");
-    const addPhotoLink = document.getElementById("js-modal-p2-open");
-    addPhotoLink.addEventListener("click", function (e) {
-        e.preventDefault();
-        // Hide first modal
-        firstmodal.style.display = "none";
-        firstmodal.setAttribute("aria-hidden", true);
-        firstmodal.removeAttribute("aria-modal");
-        console.log(firstmodal)
-        // show second modal
-        secondModal.style.display = null;
-        secondModal.removeAttribute("aria-hidden");
-        secondModal.setAttribute("aria-modal", true);
-        modal = secondModal;
-        console.log(secondModal)
-    });
-}; 
-
-//close the modal
-const closeModal = function(e) {
-    console.log("3")
-    if (modal === null) return;
-    e.preventDefault();
-    modal.style.display = "none";
-    modal.setAttribute("aria-hidden", true);
-    modal.removeAttribute("aria-modal");
-    modal.removeEventListener("click", closeModal);
-    modal.querySelector(".js-admin-modal-close").removeEventListener("click", closeModal);
-    modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation);
-    console.log("4")
-}
-//defines the clickable area to close the modal
-const stopPropagation = function(e) {
-    e.stopPropagation()
-}
-//Open modal el
-document.querySelectorAll(".js-modal-admin").forEach(a => {
-    a.addEventListener("click", openmodal)
-})
-//Only keyboard close the modal
-window.addEventListener("keydown", function(e) {
-    if (e.key === "Escape" || e.key === "Esc") {
-        closeModal(e)
-    }
-})
-
-//MODAL Gallery Generation
-async function displayPhotosInModal() {
-    const modalContent = document.querySelector(".js-admin-modal-project");
-
-    // Clear previous content of the modal
-    modalContent.innerHTML = "";
-
-    // Create HTML Photo Element and add to modal
-    mainDataJSON.forEach(photo => {
-        const image = document.createElement("img");
-        image.src = photo.imageUrl; 
-        image.alt = photo.description;
-        modalContent.appendChild(image);
-        image.className = "admin-modal-img"
-    });
-}
-
-displayPhotosInModal();
-*/
-
-//MODAL
-/**TODOOOOOOO
-let modal = null
-//open the modal
-const openmodal = function(e) {
-    console.log(e)
-    e.preventDefault()
-    //const target = document.querySelector(e.target.getAttribute("href"));
-    const target = document.querySelector("#modal-admin")
-    target.style.display = null;
-    target.removeAttribute("aria-hidden");
-    target.setAttribute("aria-modal", true);
-    modal = target;
-    modal.addEventListener("click", closeModal);
-    modal.querySelector(".js-admin-modal-close").addEventListener("click", closeModal);
-    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation);
-    console.log("2")
-}
-//close the modal
-const closeModal = function(e) {
-    console.log("3")
-    if (modal === null) return;
-    e.preventDefault();
-    /**window.setTimeout(function() {
-        modal.style.display = "none";
-        modal = null;
-    }, 300);**/
-    /**TODOOOOOOmodal.style.display = "none";
-    //modal = null;
-    modal.setAttribute("aria-hidden", true);
-    modal.removeAttribute("aria-modal");
-    modal.removeEventListener("click", closeModal);
-    modal.querySelector(".js-admin-modal-close").removeEventListener("click", closeModal);
-    modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation);
-    console.log("4")
-}
-//defines the clickable area to close the modal
-const stopPropagation = function(e) {
-    e.stopPropagation()
-}
-//Open modal el
-document.querySelectorAll(".js-modal-admin").forEach(a => {
-    a.addEventListener("click", openmodal)
-})
-//Only keyboard close the modal
-window.addEventListener("keydown", function(e) {
-    if (e.key === "Escape" || e.key === "Esc") {
-        closeModal(e)
-    }
-})
-
-//Project generation for admin modal
-
-async function displayPhotosInModal() {
-    const modalContent = document.querySelector(".js-admin-modal-project");
-
-    // Clear previous content of the modal
-    modalContent.innerHTML = "";
-
-    // Create HTML Photo Element and add to modal
-    mainDataJSON.forEach(photo => {
-        const image = document.createElement("img");
-        image.src = photo.imageUrl; 
-        image.alt = photo.description;
-        modalContent.appendChild(image);
-        image.className = "admin-modal-img"
-    });
-}
-
-displayPhotosInModal();
-
-//SECOND MODAL
-
-const openSecondModal = function(e) {
-    e.preventDefault();
-    const target = document.querySelector(e.target.getAttribute("href"));
-    target.style.display = null;
-    target.removeAttribute("aria-hidden");
-    target.setAttribute("aria-modal", true);
-    modal = target;
-    modal.addEventListener("click", closeModal);
-    modal.querySelector(".js-admin-modal-close").addEventListener("click", closeModal);
-    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation);
-};
-
-// Open the second modal
-const openSecondModalBtn = document.querySelector(".add-picture");
-openSecondModalBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-    closeFirstModal(); // Close first admin modal
-    const target = document.querySelector(e.target.getAttribute("href"));
-    target.style.display = null;
-    target.removeAttribute("aria-hidden");
-    target.setAttribute("aria-modal", true);
-    modal = target;
-    modal.addEventListener("click", closeModal);
-    modal.querySelector(".js-admin-modal-close").addEventListener("click", closeModal);
-    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation);
-});
-
-const closeFirstModal = function() {
-    if (modal === null) return;
-    modal.style.display = "none";
-    modal.setAttribute("aria-hidden", true);
-    modal.removeAttribute("aria-modal");
-    modal.removeEventListener("click", closeModal);
-    modal.querySelector(".js-admin-modal-close").removeEventListener("click", closeModal);
-    modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation);
-    modal = null;
-}
-
-const backToFirstModalBtn = document.querySelector(".js-admin-modal-previous");
-backToFirstModalBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-    closeModal(e); // Close actual modal
-    openmodal(e); // Open First modal
-});
-
-//SELECT
-
-const selectElement = document.querySelector('#categorie');
-
-const emptyOption = document.createElement('option');
+const emptyOption = document.createElement("option");
 
 // Add empty option in first place
 selectElement.appendChild(emptyOption);
 
 // Create category option for select
 categoryDataJSON.forEach(category => {
-    const option = document.createElement('option');
+    const option = document.createElement("option");
     option.value = category.id; 
     option.textContent = category.name; 
     selectElement.appendChild(option); 
 });
-
-function isAlreadyConnect() {
-    // recover token from localstorage
-    const authToken = localStorage.getItem("authToken");
-
-    const adminBtn = document.getElementById("js-admin-modifier")
-    if (authToken) {
-        // User connected
-        console.log("L'utilisateur est connecté.");
-        // avaible to use authToken
-        adminBtn.style.display = "block";
-    } else {
-        // User disconnected
-        console.log("L'utilisateur n'est pas connecté.");
-    }
-}
-
-isAlreadyConnect();
-
-/* si user co (avec token)
-isUserLogged
-tu récupérer le token
-si token = > connecté
-afficher le bouton modifier
-afficher le bouton logout
-masquer le bouton login */
