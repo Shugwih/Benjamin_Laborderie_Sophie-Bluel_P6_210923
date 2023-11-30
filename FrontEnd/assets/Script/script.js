@@ -149,6 +149,17 @@ function isAlreadyConnect() {
 
 isAlreadyConnect();
 
+//Update gallery for add or remove from modal
+function updateGallery() {
+    const galleryContainer = document.querySelector(".gallery");
+    galleryContainer.innerHTML = "";
+
+    works.forEach(work => {
+        const figureProject = createGalleryItem(work);
+        galleryContainer.appendChild(figureProject);
+    });
+}
+
 //MODAL
 const modalAdmin = document.getElementById('modal-admin'),
 modalP1 = document.getElementById('modal-admin-p1'),
@@ -223,6 +234,7 @@ async function displayPhotosInModal() {
         imageDiv.appendChild(image); // Add the image to the div
         imageDiv.appendChild(svgDiv); // Add the SVG div to the div
         modalContent.appendChild(imageDiv); // Add the div to the modalContent
+        
     });
 }
 
@@ -264,14 +276,43 @@ formModalAddProject.addEventListener("submit", async (event) => {
     });
 
     if (response.ok) {
-        const img = await response.json();
-        console.log(img.id)
-        alert("Photo ajoutée avec succès !");
-        modalP2.style.display = "none"; // close the modalP2
-        modalP1.style.display = "block"; // back to modalP1
-        // refresh the photo gallery
-        //displayPhotosInModal(); XXXXXXXXXXXXXXXX
-    } else {
+    const img = await response.json();
+    console.log(img.id);
+    alert("Photo ajoutée avec succès !");
+    modalP2.style.display = "none"; // close the modalP2
+    modalP1.style.display = "block"; // back to modalP1
+
+    // Add new image to existing gallery
+    const modalContent = document.querySelector(".js-admin-modal-project");
+    const newImageDiv = document.createElement("div");
+    newImageDiv.className = "admin-modal-img-container";
+    newImageDiv.setAttribute("data-id", img.id);
+    const newImage = document.createElement("img");
+    newImage.src = img.imageUrl;
+    newImage.alt = img.description;
+    newImage.className = "admin-modal-img";
+    newImageDiv.appendChild(newImage);
+
+    // suppression SVG div
+    const newSvgDiv = document.createElement("div");
+    newSvgDiv.className = "admin-modal-svg-container js-delete-image";
+    newSvgDiv.setAttribute("data-id", img.id);
+    newSvgDiv.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="9" height="11" viewBox="0 0 9 11" fill="none">
+        <path d="M2.71607 0.35558C2.82455 0.136607 3.04754 0 3.29063 0H5.70938C5.95246 0 6.17545 0.136607 6.28393 0.35558L6.42857 0.642857H8.35714C8.71272 0.642857 9 0.930134 9 1.28571C9 1.64129 8.71272 1.92857 8.35714 1.92857H0.642857C0.287277 1.92857 0 1.64129 0 1.28571C0 0.930134 0.287277 0.642857 0.642857 0.642857H2.57143L2.71607 0.35558ZM0.642857 2.57143H8.35714V9C8.35714 9.70915 7.78058 10.2857 7.07143 10.2857H1.92857C1.21942 10.2857 0.642857 9.70915 0.642857 9V2.57143ZM2.57143 3.85714C2.39464 3.85714 2.25 4.00179 2.25 4.17857V8.67857C2.25 8.85536 2.39464 9 2.57143 9C2.74821 9 2.89286 8.85536 2.89286 8.67857V4.17857C2.89286 4.00179 2.74821 3.85714 2.57143 3.85714ZM4.5 3.85714C4.32321 3.85714 4.17857 4.00179 4.17857 4.17857V8.67857C4.17857 8.85536 4.32321 9 4.5 9C4.67679 9 4.82143 8.85536 4.82143 8.67857V4.17857C4.82143 4.00179 4.67679 3.85714 4.5 3.85714ZM6.42857 3.85714C6.25179 3.85714 6.10714 4.00179 6.10714 4.17857V8.67857C6.10714 8.85536 6.25179 9 6.42857 9C6.60536 9 6.75 8.85536 6.75 8.67857V4.17857C6.75 4.00179 6.60536 3.85714 6.42857 3.85714Z" fill="white"/>
+    </svg>
+`;
+
+    works.push(img);
+
+    // New suppression div for new image
+    newImageDiv.appendChild(newSvgDiv);
+
+    // add to existing gallery
+    modalContent.appendChild(newImageDiv);
+
+    updateGallery();
+} else {
         alert("Une erreur s'est produite lors de l'ajout de la photo.");
     }
 });
@@ -279,12 +320,14 @@ formModalAddProject.addEventListener("submit", async (event) => {
 //MODAL Delete photo
 // add event listener for suppression
 console.log("Test")
+
 modalAdmin.addEventListener("click", async (event) => {
     if (event.target.classList.contains("js-delete-image")) {
-        const imageId = event.target.getAttribute("data-id"); // Get the image ID
-        console.log(imageId)
+        const imageId = event.target.getAttribute("data-id");
+        console.log(imageId);
+
         // Verify ID
-        if ({imageId}) {
+        if (imageId) {
             const authToken = localStorage.getItem('authToken');
             const response = await fetch(`${GALLERY_API_URL}/${imageId}`, {
                 method: 'DELETE',
@@ -293,10 +336,16 @@ modalAdmin.addEventListener("click", async (event) => {
                     Authorization: `Bearer ${authToken}`,
                 },
             });
-            console.log(imageId)
+
             if (response.ok) {
                 alert("L'image a été supprimée avec succès.");
+
+                // Remove from existing gallery
                 document.querySelector(`[data-id="${imageId}"]`).remove();
+
+                works = works.filter(work => work.id !== parseInt(imageId));
+
+                updateGallery();
             } else {
                 alert("Une erreur s'est produite lors de la suppression de l'image.");
             }
@@ -326,6 +375,7 @@ function showPreview(event) {
 const inputChange = document.getElementById("photo").addEventListener("change", event => {
     showPreview(event);
 })
+
 
 //MODAL Select category
 

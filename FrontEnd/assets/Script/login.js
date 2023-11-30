@@ -18,7 +18,7 @@ async function login() {
         password = Inputpassword.value;
 
     const data = {email : email, password: password};
-    console.log(data);
+    console.log(data); 
     const config = {
         method: "POST",
         headers: {
